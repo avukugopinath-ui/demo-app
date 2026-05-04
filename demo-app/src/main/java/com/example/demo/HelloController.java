@@ -8,6 +8,6 @@ public class HelloController {
 
     @GetMapping("/hello")
     public String hello() {
-        return "Hello from Spring Boot, Update to Git Hub Test!";
+        return "Hello from Spring Boot, Update to Git Hub Test Feature Commit!";
     }
 }
