@@ -1,0 +1,47 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_NAME = "demo-app"
+        VM_IP = "34.14.192.106"
+        VM_USER = "ubuntu"
+    }
+
+    stages {
+
+        stage('Clone Code') {
+            steps {
+                git 'https://github.com/avukugopinath-ui/demo-app.git'
+            }
+        }
+
+        stage('Build JAR') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t demo-app .'
+            }
+        }
+
+        stage('Deploy to GCP VM') {
+            steps {
+                sh """
+                docker save -o demo-app.tar demo-app
+                scp demo-app.tar ${ubuntu}@${34.14.192.106 }:~
+                scp docker-compose.yml ${ubuntu}@${34.14.192.106 }:~
+
+                ssh ${VM_USER}@${VM_IP} '
+                    docker load -i demo-app.tar
+                    docker-compose down || true
+                    docker-compose up -d
+                '
+                """
+            }
+        }
+    }
+}
+
