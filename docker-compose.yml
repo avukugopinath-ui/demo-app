@@ -16,7 +16,7 @@ services:
       - postgres-data:/var/lib/postgresql/data
 
   app:
-    image: demo-app
+    image: demo-app:latest
     container_name: demo-container
     ports:
       - "8081:8081"
