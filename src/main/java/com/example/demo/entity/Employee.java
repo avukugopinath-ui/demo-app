@@ -17,12 +17,12 @@ public class Employee {
 	private String name;
 	private String email;
 	private String department;
-	private double salary;
+	private String salary;
 
 	public Employee() {
 	}
 
-	public Employee(String name, String email,String department,double salary) {
+	public Employee(String name, String email,String department,String salary) {
 		this.name = name;
 		this.email = email;
 		this.department = department;
@@ -57,11 +57,11 @@ public class Employee {
 		this.department = department;
 	}
 
-	public double getSalary() {
+	public String getSalary() {
 		return salary;
 	}
 
-	public void setSalary(double salary) {
+	public void setSalary(String salary) {
 		this.salary = salary;
 	}
 	
