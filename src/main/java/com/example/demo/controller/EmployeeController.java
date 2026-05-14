@@ -18,44 +18,51 @@ import com.example.demo.entity.ApiResponse;
 import com.example.demo.entity.Employee;
 import com.example.demo.service.EmployeeService;
 
-
-
 @RestController
 @RequestMapping("/demo")
 @CrossOrigin(origins = "http://localhost:3000")
 public class EmployeeController {
 
-    @Autowired
-    private EmployeeService service;
+	@Autowired
+	private EmployeeService service;
 
-    @PostMapping("/employees")
-    public Employee addEmployee(@RequestBody Employee emp) {
-        return service.save(emp);
-    }
+	@PostMapping("/employees")
+	public Employee addEmployee(@RequestBody Employee emp) {
+		return service.save(emp);
+	}
 
-    @GetMapping("/employees")
-    public List<Employee> getUsers() {
-        return service.getAll();
-    }
+	@GetMapping("/employees")
+	public List<Employee> getUsers() {
+		return service.getAll();
+	}
 //    @GetMapping("/employees/{id}")
 //    public Optional<Employee> getUserById(@PathVariable String id) {
 //    	int numericID= Integer.parseInt(id);
 //		return service.getUserById(numericID);
 //    }
-    
+
 //    @GetMapping("/employees/{id}")
 //    public ResponseEntity<?> getEmployee(@PathVariable int id) {
 //        return service.getUserById(id)
 //                .<ResponseEntity<?>>map(employee -> ResponseEntity.ok(employee))
 //                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body("no id found"));
 //    }
-    @GetMapping("/employees/{id}")
-    public ResponseEntity<ApiResponse<Employee>> getEmployee(@PathVariable int id) {
-        Optional<Employee> emp = service.getUserById(id);
-        if (emp.isPresent()) {
-            return ResponseEntity.ok(new ApiResponse<>(true, "Success", emp.get()));
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                             .body(new ApiResponse<>(false, "no id found", null));
-    }
+	@GetMapping("/employees/id/{id}")
+	public ResponseEntity<ApiResponse<Employee>> getEmployee(@PathVariable int id) {
+		Optional<Employee> emp = service.getUserById(id);
+		if (emp.isPresent()) {
+			return ResponseEntity.ok(new ApiResponse<>(true, "Success", emp.get()));
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>(false, "no id found", null));
+	}
+
+	@GetMapping("/employees/name/{name}")
+	public ResponseEntity<ApiResponse<Employee>> getEmployeeByName(@PathVariable String name) {
+		Optional<Employee> emp = service.getUserByname(name);
+		if (emp.isPresent()) {
+			return ResponseEntity.ok(new ApiResponse<>(true, "Success", emp.get()));
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse<>(false, "no id found", null));
+	}
+
 }

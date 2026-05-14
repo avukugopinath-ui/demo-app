@@ -31,4 +31,9 @@ public Optional<Employee>  getUserById(int numericID) {
 		 return optionalemployee;
 	 	 
 }
+
+public Optional<Employee> getUserByname(String name) {
+	Optional<Employee> optionalemployeename = repo.findByName(name);
+	return optionalemployeename;
+}
 }
